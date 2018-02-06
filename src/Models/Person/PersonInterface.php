@@ -24,22 +24,53 @@ use Mike\Models\Person\ValueObjects\LastName;
 interface PersonInterface
 {
 
+    /**
+     * @param FirstName $string
+     * @return string
+     */
     public static function setFirstName(FirstName $string): string;
 
+    /**
+     * @param LastName $string
+     * @return string
+     */
     public static function setLastName(LastName $string): string;
 
+    /**
+     * @param Age $int
+     * @return int
+     */
     public static function setAge(Age $int): int;
 
+    /**
+     * @param IsActive $bool
+     * @return bool
+     */
     public static function setIsActive(IsActive $bool): bool;
 
+    /**
+     * @return int
+     */
     public function id(): int;
 
+    /**
+     * @return string
+     */
     public function first_name(): string;
 
+    /**
+     * @return string
+     */
     public function last_name(): string;
 
+    /**
+     * @return int
+     */
     public function age(): int;
 
+    /**
+     * @return bool
+     */
     public function is_active(): bool;
 
 }

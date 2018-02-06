@@ -22,7 +22,7 @@ final class FirstName
     public function __construct(string $firstName)
     {
         if (strlen($firstName) < 5) {
-            throw new \Exception($firstName);
+            throw new \Exception('An error occurred');
         }
 
         $this->firstName = $firstName;

@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Mike\Managers\PersonManager;
 use Mike\Repositories\PersonRepository;
 
+/**
+ * Class PersonController
+ * @package App\Http\Controllers
+ */
 class PersonController extends Controller
 {
     /**
@@ -22,6 +26,9 @@ class PersonController extends Controller
         $this->personRepository = $personRepository;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $people = $this->personRepository->getAll()->toArray();
@@ -29,6 +36,9 @@ class PersonController extends Controller
         return view('people.index', compact('people'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $data = [
@@ -42,16 +52,36 @@ class PersonController extends Controller
         return view('people.edit', $data);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
     public function store(Request $request)
     {
-        //
+        $personManager = new PersonManager;
+        $data          = $personManager->processData($request);
+
+        $this->personRepository->add($data);
+
+        return redirect()->route('people.index');
     }
 
+    /**
+     * @param $personId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($personId)
     {
-        //
+        $person = $this->personRepository->findById($personId)->toArray();
+
+        return view('people.show', compact('person'));
     }
 
+    /**
+     * @param $personId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($personId)
     {
         $data = [
@@ -83,8 +113,17 @@ class PersonController extends Controller
         return redirect()->route('people.index');
     }
 
+    /**
+     * @param $personId
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
     public function destroy($personId)
     {
-        //
+        $person = $this->personRepository->findById($personId);
+
+        $this->personRepository->delete($person);
+
+        return redirect()->route('people.index');
     }
 }
